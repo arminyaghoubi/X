@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using X.Persistence.DatabaseContexts;
 
@@ -10,9 +11,11 @@ using X.Persistence.DatabaseContexts;
 namespace X.Persistence.Migrations
 {
     [DbContext(typeof(XDatabaseContext))]
-    partial class XDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230902162713_AddSeedDataInActivity")]
+    partial class AddSeedDataInActivity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
