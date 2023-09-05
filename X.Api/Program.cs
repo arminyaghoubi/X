@@ -4,6 +4,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
+string policyName = "AppPolicy";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(policyName, builder => builder.WithOrigins(configuration.GetValue<string>("UiBaseUrl")).AllowAnyHeader().AllowAnyMethod());
+});
+
 // Add services to the container.
 builder.Services.AddPersistenceServices(configuration);
 
@@ -22,6 +29,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(policyName);
 
 app.UseAuthorization();
 
