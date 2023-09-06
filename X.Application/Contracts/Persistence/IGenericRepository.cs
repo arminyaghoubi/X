@@ -11,6 +11,7 @@ public interface IGenericRepository<TEntity>
         Expression<Func<TEntity, object>> order = null,
         bool ascending = true,
         bool disableTracking = true,
+        bool hasPagination = false,
         int page = 1,
         int size = 15,
         CancellationToken cancellation = default);
