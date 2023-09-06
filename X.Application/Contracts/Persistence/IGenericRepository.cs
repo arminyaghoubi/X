@@ -13,7 +13,7 @@ public interface IGenericRepository<TEntity>
         bool disableTracking = true,
         bool hasPagination = false,
         int page = 1,
-        int size = 15,
+        int pageSize = 15,
         CancellationToken cancellation = default);
 
     Task<TEntity?> GetByIdAsync(Guid id,

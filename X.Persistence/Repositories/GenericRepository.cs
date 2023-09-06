@@ -22,7 +22,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         bool disableTracking = true,
         bool hasPagination = false,
         int page = 1,
-        int size = 15,
+        int pageSize = 15,
         CancellationToken cancellation = default)
     {
         var query = Entities.AsQueryable();
@@ -40,7 +40,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
             query = query.AsNoTracking();
 
         return hasPagination ?
-            await query.Skip((page - 1) * size).Take(size).ToListAsync(cancellation) :
+            await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(cancellation) :
             await query.ToListAsync(cancellation);
     }
 
