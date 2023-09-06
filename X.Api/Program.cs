@@ -1,4 +1,5 @@
 using X.Persistence;
+using X.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,8 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
-builder.Services.AddPersistenceServices(configuration);
+builder.Services.AddPersistenceServices(configuration)
+    .AddApplicationServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
