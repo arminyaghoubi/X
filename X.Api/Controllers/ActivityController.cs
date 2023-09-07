@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using X.Api.Controllers.Common;
 using X.Application.Features.Activities.Commands.Create;
+using X.Application.Features.Activities.Commands.Update;
 using X.Application.Features.Activities.Queries.GetAll;
 using X.Application.Features.Activities.Queries.GetDetails;
 
@@ -19,4 +20,15 @@ public class ActivityController : BaseController
     [HttpPost]
     public async Task<ActionResult> CreateAsync([FromBody] CreateActivityCommand command, CancellationToken cancellation) =>
         Ok(await Mediator.Send(command, cancellation));
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> UpdateAsync([FromBody] UpdateActivityCommand command, CancellationToken cancellation)
+    {
+        await Mediator.Send(command, cancellation);
+        return NoContent();
+    }
 }
