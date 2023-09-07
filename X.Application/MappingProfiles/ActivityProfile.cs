@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using X.Application.Features.Activities.Commands.Create;
+using X.Application.Features.Activities.Commands.Update;
 using X.Application.Features.Activities.Queries.GetAll;
 using X.Application.Features.Activities.Queries.GetDetails;
 using X.Domain;
@@ -13,5 +14,6 @@ public class ActivityProfile : Profile
         CreateMap<Activity, GetAllActivityDto>();
         CreateMap<Activity, GetDetailsActivityDto>();
         CreateMap<CreateActivityCommand, Activity>();
+        CreateMap<UpdateActivityCommand, Activity>();
     }
 }
