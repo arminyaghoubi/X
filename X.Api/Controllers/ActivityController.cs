@@ -11,11 +11,11 @@ namespace X.Api.Controllers;
 public class ActivityController : BaseController
 {
     [HttpGet]
-    public async Task<ActionResult> GetAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 15, CancellationToken cancellation = default) =>
+    public async Task<ActionResult<IEnumerable<GetAllActivityDto>>> GetAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 15, CancellationToken cancellation = default) =>
         Ok(await Mediator.Send(new GetAllActivityQuery(page, pageSize), cancellation));
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellation) =>
+    public async Task<ActionResult<GetDetailsActivityDto>> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellation) =>
         Ok(await Mediator.Send(new GetDetailsActivityQuery(id), cancellation));
 
     [HttpPost]
