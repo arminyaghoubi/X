@@ -1,9 +1,10 @@
-﻿import ButtonUsage from '../../ButtonUsage'
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import InboxIcon from '@mui/icons-material/Inbox';
 import { Activity } from '../models/activity';
+import NavBar from './NavBar';
+
 export default function App() {
 
     const [activities, setActivities] = useState<Activity[]>([]);
@@ -12,13 +13,14 @@ export default function App() {
         axios.get<Activity[]>('https://localhost:7274/api/Activity').then(response => {
             setActivities(response.data);
         })
-    },[])
+    }, [])
 
     return (
         <div>
             <List>
                 {activities.map(activity => (
-                    <ListItem disablePadding>
+
+                    <ListItem key={activity.id}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <InboxIcon />
@@ -28,9 +30,7 @@ export default function App() {
                     </ListItem>
                 ))}
             </List>
-            <div className="card">
-                <ButtonUsage></ButtonUsage>
-            </div>
+            <NavBar></NavBar>
         </div>
     )
 }
