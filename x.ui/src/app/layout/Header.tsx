@@ -6,10 +6,10 @@ export default function Header() {
 
 
     return (
-        <AppBar>
+        <AppBar color="primary">
             <Container>
                 <Toolbar disableGutters>
-                    <Avatar alt="X" src="/assets/XLogo.png" />
+                    <Avatar alt="X" src="/assets/XLogo.png" sx={{ margin: '0 auto !important' }} />
                 </Toolbar>
             </Container>
         </AppBar>

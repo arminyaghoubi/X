@@ -1,10 +1,10 @@
-﻿import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import InboxIcon from '@mui/icons-material/Inbox';
-import { Activity } from '../models/activity';
+﻿import { Grid } from '@mui/material'
 import NavBar from './NavBar';
 import Header from './Header';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Activity } from '../models/activity';
+import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 
 export default function App() {
 
@@ -17,30 +17,17 @@ export default function App() {
     }, [])
 
     return (
-        <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+        <Grid container spacing={7} columns={12}>
 
-            <Box gridColumn="span 12">
+            <Grid item xs={12} alignItems="center">
                 <Header></Header>
-            </Box>
-            <Box gridColumn="span 12" sx={{
-                margin: '40px 0',
-            }}>
-                <List >
-                    {activities.map(activity => (
-                        <ListItem key={activity.id}>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <InboxIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={activity.title} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-            </Box>
-            <Box gridColumn="span 12">
+            </Grid>
+            <Grid item xs={12}>
+                <ActivityDashboard activities={activities}></ActivityDashboard>
+            </Grid>
+            <Grid item xs={12}>
                 <NavBar></NavBar>
-            </Box>
-        </Box>
+            </Grid>
+        </Grid >
     )
 }
