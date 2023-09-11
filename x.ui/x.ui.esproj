@@ -12,6 +12,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\app\models\" />
-    <Folder Include="src\features\" />
+    <Folder Include="src\features\activities\dashboard\" />
   </ItemGroup>
 </Project>
