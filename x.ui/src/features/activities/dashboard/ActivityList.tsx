@@ -1,11 +1,26 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import { Activity } from "../../../app/models/activity";
+import { useState } from "react";
+import ActivityDetails from "../details/ActivityDetails";
 
 interface Props {
     activities: Activity[];
 }
 
 export default function ActivityList({ activities }: Props) {
+
+    const [openDetails, setOpenDetails] = useState(false);
+    const [activityDetails, setActivityDetails] = useState<Activity>();
+
+    const showDetailsDialog = (activity: Activity) => {
+        setActivityDetails(activity);
+        setOpenDetails(true);
+    }
+
+    const hideDetailsDialog = () => {
+        setOpenDetails(false);
+    }
+
     return (
         <div>
             {activities.map(activity => (
@@ -26,10 +41,11 @@ export default function ActivityList({ activities }: Props) {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button variant="outlined" size="small">View</Button>
+                        <Button onClick={() => showDetailsDialog(activity)} variant="outlined" size="small">View</Button>
                     </CardActions>
                 </Card>
             ))}
+            {activities[0] && <ActivityDetails activity={activityDetails} open={openDetails} onClose={hideDetailsDialog} />}
         </div>
     )
 }

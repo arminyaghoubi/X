@@ -13,5 +13,6 @@
   <ItemGroup>
     <Folder Include="src\app\models\" />
     <Folder Include="src\features\activities\dashboard\" />
+    <Folder Include="src\features\activities\details\" />
   </ItemGroup>
 </Project>
