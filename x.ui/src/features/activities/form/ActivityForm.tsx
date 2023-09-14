@@ -11,7 +11,7 @@ import dayjs, { Dayjs } from "dayjs";
 interface Props {
     activity?: Activity;
     open: boolean;
-    onClose: MouseEventHandler;
+    onClose: () => void;
 }
 
 const Transition = forwardRef(function Transition(
