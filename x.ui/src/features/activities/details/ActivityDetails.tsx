@@ -1,11 +1,10 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { MouseEventHandler } from "react";
 import { Activity } from "../../../app/models/activity";
 
 interface Props {
     activity?: Activity;
     open: boolean;
-    onClose: MouseEventHandler;
+    onClose: () => void;
 }
 
 export default function ActivityDetails({ activity, open, onClose }: Props) {
