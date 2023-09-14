@@ -6,7 +6,7 @@ export interface Activity {
     modifierId: string;
     title: string;
     description: string;
-    category: string;
+    category: Date;
     city: string;
     venue: string;
     date: string;
