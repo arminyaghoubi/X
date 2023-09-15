@@ -10,19 +10,21 @@ interface Props {
     onSelectActivityDetails: (activity: Activity) => void;
     onCloseActivityDetails: () => void;
     selectedActivityForm: Activity | undefined;
-    onSelectActivityForm: (activity: Activity,formMode:string) => void;
+    onSelectActivityForm: (activity: Activity, formMode: string) => void;
     onCloseActivityForm: () => void;
     formMode: string;
     onSubmitForm: (activity: Activity) => void;
+    onDeleteActivity: (id: string) => void;
 }
 
 export default function ActivityDashboard({ activities,
     selectedActivityDetails, onSelectActivityDetails, onCloseActivityDetails,
-    selectedActivityForm, onSelectActivityForm, onCloseActivityForm, formMode, onSubmitForm }: Props) {
+    selectedActivityForm, onSelectActivityForm, onCloseActivityForm, formMode, onSubmitForm,
+    onDeleteActivity }: Props) {
 
     return (
         <div>
-            <ActivityList activities={activities} onClickViewDetails={onSelectActivityDetails} onClickUpdate={onSelectActivityForm} />
+            <ActivityList activities={activities} onClickViewDetails={onSelectActivityDetails} onClickUpdate={onSelectActivityForm} onDeleteActivity={onDeleteActivity} />
 
             {selectedActivityDetails && <ActivityDetails activity={selectedActivityDetails} open={Boolean(selectedActivityDetails)} onClose={onCloseActivityDetails} />}
 
