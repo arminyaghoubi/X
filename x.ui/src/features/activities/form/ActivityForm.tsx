@@ -13,6 +13,7 @@ interface Props {
     open: boolean;
     mode: string,
     onClose: () => void;
+    onSubmitForm: (activity: Activity) => void;
 }
 
 const Transition = forwardRef(function Transition(
@@ -24,7 +25,7 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ActivityForm({ activity: initialState, mode, open, onClose }: Props) {
+export default function ActivityForm({ activity: initialState, mode, open, onClose, onSubmitForm }: Props) {
 
 
     const [activity, setActivity] = useState<Activity>(initialState);
@@ -33,11 +34,6 @@ export default function ActivityForm({ activity: initialState, mode, open, onClo
     useEffect(() => {
         setActivity(initialState);
     }, []);
-
-
-    const onSubmit = () => {
-        console.log(activity);
-    }
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -63,7 +59,7 @@ export default function ActivityForm({ activity: initialState, mode, open, onClo
                         <CloseIcon />
                     </IconButton>
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        { mode} Activity
+                        {mode} Activity
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -71,19 +67,22 @@ export default function ActivityForm({ activity: initialState, mode, open, onClo
             <FormControl>
                 <TextField type="text" variant="standard" name="title" label="Title" defaultValue={activity.title} onChange={handleInputChange} />
                 <br />
-                <TextField type="text" variant="standard" label="Category" defaultValue={activity.category} onChange={handleInputChange} />
+                <TextField type="text" variant="standard" name="category" label="Category" defaultValue={activity.category} onChange={handleInputChange} />
                 <br />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Date" value={value} onChange={(newValue) => setValue(newValue)} />
+                    <DatePicker label="Date" value={value} onChange={(newValue) => {
+                        setValue(newValue);
+                        setActivity({ ...activity, ["date"]: newValue ? newValue?.format("YYYY-MM-DD") : "" });
+                    }} />
                 </LocalizationProvider>
                 <br />
-                <TextField type="text" variant="standard" label="City" defaultValue={activity.city} />
+                <TextField type="text" variant="standard" name="city" label="City" defaultValue={activity.city} onChange={handleInputChange} />
                 <br />
-                <TextField type="text" variant="standard" label="Venue" defaultValue={activity.venue} />
+                <TextField type="text" variant="standard" name="venue" label="Venue" defaultValue={activity.venue} onChange={handleInputChange} />
                 <br />
-                <TextField type="text" variant="standard" label="Description" defaultValue={activity.description} multiline rows={4} />
+                <TextField type="text" variant="standard" name="description" label="Description" defaultValue={activity.description} multiline rows={4} onChange={handleInputChange} />
                 <br />
-                <Button variant="outlined" color="primary" onClick={onSubmit}>Submit</Button>
+                <Button variant="outlined" color="primary" onClick={() => onSubmitForm(activity)}>Submit</Button>
             </FormControl>
 
         </Dialog>
