@@ -78,6 +78,14 @@ export default function App() {
         }
     }
 
+    const handleDeleteActivity = (id: string) => {
+        axios.delete(`https://localhost:7274/api/Activity/${id}`).then(response => {
+            if (response.status === 204) {
+                getActivities();
+            }
+        })
+    }
+
     return (
 
         <Grid container spacing={7} columns={12}>
@@ -95,6 +103,7 @@ export default function App() {
                     activities={activities}
                     formMode={formMode}
                     onSubmitForm={handleSubmitForm}
+                    onDeleteActivity={handleDeleteActivity}
                 ></ActivityDashboard>
             </Grid>
             <Grid item xs={12}>
