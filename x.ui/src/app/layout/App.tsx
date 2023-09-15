@@ -14,10 +14,14 @@ export default function App() {
     const [formMode, setFormMode] = useState("Create");
 
     useEffect(() => {
+        getActivities();
+    }, []);
+
+    const getActivities = () => {
         axios.get<Activity[]>('https://localhost:7274/api/Activity').then(response => {
             setActivities(response.data);
         })
-    }, []);
+    }
 
     const handleSelectActivityDetails = (activity: Activity) => {
         setSelectedActivityDetails(activity);
@@ -55,6 +59,25 @@ export default function App() {
         setSelectedActivityForm(emptyActivity);
     }
 
+    const handleSubmitForm = (activity: Activity) => {
+        if (formMode == "Create") {
+            axios.post('https://localhost:7274/api/Activity', activity).then(response => {
+                if (response.status === 200) {
+                    getActivities();
+                    handleCloseActivityForm();
+                }
+            })
+        }
+        else if (formMode == "Edit") {
+            axios.put('https://localhost:7274/api/Activity', activity).then(response => {
+                if (response.status === 204) {
+                    getActivities();
+                    handleCloseActivityForm();
+                }
+            })
+        }
+    }
+
     return (
 
         <Grid container spacing={7} columns={12}>
@@ -71,6 +94,7 @@ export default function App() {
                     selectedActivityForm={selectedActivityForm}
                     activities={activities}
                     formMode={formMode}
+                    onSubmitForm={handleSubmitForm}
                 ></ActivityDashboard>
             </Grid>
             <Grid item xs={12}>
