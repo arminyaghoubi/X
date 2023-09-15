@@ -9,12 +9,51 @@ import ActivityDashboard from '../../features/activities/dashboard/ActivityDashb
 export default function App() {
 
     const [activities, setActivities] = useState<Activity[]>([]);
+    const [selectedActivityDetails, setSelectedActivityDetails] = useState<Activity | undefined>(undefined);
+    const [selectedActivityForm, setSelectedActivityForm] = useState<Activity | undefined>(undefined);
+    const [formMode, setFormMode] = useState("Create");
 
     useEffect(() => {
         axios.get<Activity[]>('https://localhost:7274/api/Activity').then(response => {
             setActivities(response.data);
         })
-    }, [])
+    }, []);
+
+    const handleSelectActivityDetails = (activity: Activity) => {
+        setSelectedActivityDetails(activity);
+    }
+
+    const handleCloseActivityDetails = () => {
+        setSelectedActivityDetails(undefined);
+    }
+
+    const handleCloseActivityForm = () => {
+        setFormMode("Create");
+        setSelectedActivityForm(undefined);
+    }
+
+    const handleSelectActivityForm = (activity: Activity, formMode: string) => {
+        setFormMode(formMode);
+        setSelectedActivityForm(activity);
+    }
+
+    const handleOpenCreateActivity = () => {
+        const emptyActivity: Activity = {
+            id: '',
+            title: '',
+            description: '',
+            category: '',
+            date: '',
+            city: '',
+            venue: '',
+            creationDate: '',
+            creatorId: '',
+            lastModifiedDate: '',
+            modifierId: ''
+        }
+        setFormMode("Create");
+        setSelectedActivityForm(emptyActivity);
+    }
 
     return (
 
@@ -24,10 +63,18 @@ export default function App() {
                 <Header></Header>
             </Grid>
             <Grid item xs={12}>
-                <ActivityDashboard activities={activities}></ActivityDashboard>
+                <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
+                    onCloseActivityDetails={handleCloseActivityDetails}
+                    selectedActivityDetails={selectedActivityDetails}
+                    onCloseActivityForm={handleCloseActivityForm}
+                    onSelectActivityForm={handleSelectActivityForm}
+                    selectedActivityForm={selectedActivityForm}
+                    activities={activities}
+                    formMode={formMode}
+                ></ActivityDashboard>
             </Grid>
             <Grid item xs={12}>
-                <NavBar></NavBar>
+                <NavBar onOpenCreateActivity={handleOpenCreateActivity}></NavBar>
             </Grid>
         </Grid >
     )
