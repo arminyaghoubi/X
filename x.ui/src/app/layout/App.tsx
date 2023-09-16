@@ -2,9 +2,10 @@
 import NavBar from './NavBar';
 import Header from './Header';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Activity } from '../models/activity';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
+import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 export default function App() {
 
@@ -12,14 +13,16 @@ export default function App() {
     const [selectedActivityDetails, setSelectedActivityDetails] = useState<Activity | undefined>(undefined);
     const [selectedActivityForm, setSelectedActivityForm] = useState<Activity | undefined>(undefined);
     const [formMode, setFormMode] = useState("Create");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getActivities();
     }, []);
 
     const getActivities = () => {
-        axios.get<Activity[]>('https://localhost:7274/api/Activity').then(response => {
+        agent.Activity.getAll().then(response => {
             setActivities(response.data);
+            setLoading(false);
         })
     }
 
@@ -61,7 +64,7 @@ export default function App() {
 
     const handleSubmitForm = (activity: Activity) => {
         if (formMode == "Create") {
-            axios.post('https://localhost:7274/api/Activity', activity).then(response => {
+            agent.Activity.create(activity).then(response => {
                 if (response.status === 200) {
                     getActivities();
                     handleCloseActivityForm();
@@ -69,7 +72,7 @@ export default function App() {
             })
         }
         else if (formMode == "Edit") {
-            axios.put('https://localhost:7274/api/Activity', activity).then(response => {
+            agent.Activity.update(activity).then(response => {
                 if (response.status === 204) {
                     getActivities();
                     handleCloseActivityForm();
@@ -79,7 +82,7 @@ export default function App() {
     }
 
     const handleDeleteActivity = (id: string) => {
-        axios.delete(`https://localhost:7274/api/Activity/${id}`).then(response => {
+        agent.Activity.delete(id).then(response => {
             if (response.status === 204) {
                 getActivities();
             }
@@ -87,28 +90,33 @@ export default function App() {
     }
 
     return (
+        <div>
 
-        <Grid container spacing={7} columns={12}>
+            <Grid container spacing={7} columns={12}>
 
-            <Grid item xs={12} alignItems="center">
-                <Header></Header>
-            </Grid>
-            <Grid item xs={12}>
-                <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
-                    onCloseActivityDetails={handleCloseActivityDetails}
-                    selectedActivityDetails={selectedActivityDetails}
-                    onCloseActivityForm={handleCloseActivityForm}
-                    onSelectActivityForm={handleSelectActivityForm}
-                    selectedActivityForm={selectedActivityForm}
-                    activities={activities}
-                    formMode={formMode}
-                    onSubmitForm={handleSubmitForm}
-                    onDeleteActivity={handleDeleteActivity}
-                ></ActivityDashboard>
-            </Grid>
-            <Grid item xs={12}>
-                <NavBar onOpenCreateActivity={handleOpenCreateActivity}></NavBar>
-            </Grid>
-        </Grid >
+                <Grid item xs={12} alignItems="center">
+                    <Header></Header>
+                </Grid>
+                <Grid item xs={12}>
+                    <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
+                        onCloseActivityDetails={handleCloseActivityDetails}
+                        selectedActivityDetails={selectedActivityDetails}
+                        onCloseActivityForm={handleCloseActivityForm}
+                        onSelectActivityForm={handleSelectActivityForm}
+                        selectedActivityForm={selectedActivityForm}
+                        activities={activities}
+                        formMode={formMode}
+                        onSubmitForm={handleSubmitForm}
+                        onDeleteActivity={handleDeleteActivity}
+                    ></ActivityDashboard>
+                </Grid>
+                <Grid item xs={12}>
+                    <NavBar onOpenCreateActivity={handleOpenCreateActivity}></NavBar>
+                </Grid>
+            </Grid >
+
+            <LoadingComponent loading={loading} />
+
+        </div>
     )
 }

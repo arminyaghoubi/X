@@ -70,10 +70,11 @@ export default function ActivityForm({ activity: initialState, mode, open, onClo
                 <TextField type="text" variant="standard" name="category" label="Category" defaultValue={activity.category} onChange={handleInputChange} />
                 <br />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Date" value={value} onChange={(newValue) => {
-                        setValue(newValue);
-                        setActivity({ ...activity, ["date"]: newValue ? newValue?.format("YYYY-MM-DD") : "" });
-                    }} />
+                    <DatePicker label="Date" value={value}
+                        onChange={(newValue) => {
+                            setValue(newValue);
+                            setActivity({ ...activity, ["date"]: newValue ? newValue?.format("YYYY-MM-DD") : "" });
+                        }} />
                 </LocalizationProvider>
                 <br />
                 <TextField type="text" variant="standard" name="city" label="City" defaultValue={activity.city} onChange={handleInputChange} />
