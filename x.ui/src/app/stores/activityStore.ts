@@ -5,6 +5,9 @@ import agent from "../api/agent";
 export default class ActivityStore {
     activities: Activity[] = [];
     loading: boolean = false;
+    selectedActivityDetails: Activity | undefined = undefined;
+    selectedActivityForm: Activity | undefined = undefined;
+    formMode: string = "Create";
 
     constructor() {
         makeAutoObservable(this);
@@ -46,5 +49,17 @@ export default class ActivityStore {
             }
             this.loading = false;
         })
+    }
+
+    setSelectedActivityDetails = (activity: Activity | undefined) => {
+        this.selectedActivityDetails = activity;
+    }
+
+    setSelectedActivityForm = (activity: Activity | undefined) => {
+        this.selectedActivityForm = activity;
+    }
+
+    setFormMode = (mode: string) => {
+        this.formMode = mode;
     }
 }
