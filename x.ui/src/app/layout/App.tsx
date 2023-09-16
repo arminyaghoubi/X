@@ -1,7 +1,7 @@
 ﻿import { Grid } from '@mui/material'
 import NavBar from './NavBar';
 import Header from './Header';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Activity } from '../models/activity';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import LoadingComponent from './LoadingComponent';
@@ -13,30 +13,26 @@ export default observer(
 
         const { activityStore } = useStore();
 
-        const [selectedActivityDetails, setSelectedActivityDetails] = useState<Activity | undefined>(undefined);
-        const [selectedActivityForm, setSelectedActivityForm] = useState<Activity | undefined>(undefined);
-        const [formMode, setFormMode] = useState("Create");
-
         useEffect(() => {
             activityStore.getActivities();
         }, []);
 
         const handleSelectActivityDetails = (activity: Activity) => {
-            setSelectedActivityDetails(activity);
+            activityStore.setSelectedActivityDetails(activity);
         }
 
         const handleCloseActivityDetails = () => {
-            setSelectedActivityDetails(undefined);
+            activityStore.setSelectedActivityDetails(undefined);
         }
 
         const handleCloseActivityForm = () => {
-            setFormMode("Create");
-            setSelectedActivityForm(undefined);
+            activityStore.setFormMode("Create");
+            activityStore.setSelectedActivityForm(undefined);
         }
 
         const handleSelectActivityForm = (activity: Activity, formMode: string) => {
-            setFormMode(formMode);
-            setSelectedActivityForm(activity);
+            activityStore.setFormMode(formMode);
+            activityStore.setSelectedActivityForm(activity);
         }
 
         const handleOpenCreateActivity = () => {
@@ -53,16 +49,16 @@ export default observer(
                 lastModifiedDate: '',
                 modifierId: ''
             }
-            setFormMode("Create");
-            setSelectedActivityForm(emptyActivity);
+            activityStore.setFormMode("Create");
+            activityStore.setSelectedActivityForm(emptyActivity);
         }
 
         const handleSubmitForm = (activity: Activity) => {
-            if (formMode == "Create") {
+            if (activityStore.formMode == "Create") {
                 activityStore.createActivity(activity);
                 handleCloseActivityForm();
             }
-            else if (formMode == "Edit") {
+            else if (activityStore.formMode == "Edit") {
                 activityStore.updateActivity(activity);
                 handleCloseActivityForm();
             }
@@ -83,12 +79,12 @@ export default observer(
                     <Grid item xs={12}>
                         <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
                             onCloseActivityDetails={handleCloseActivityDetails}
-                            selectedActivityDetails={selectedActivityDetails}
+                            selectedActivityDetails={activityStore.selectedActivityDetails}
                             onCloseActivityForm={handleCloseActivityForm}
                             onSelectActivityForm={handleSelectActivityForm}
-                            selectedActivityForm={selectedActivityForm}
+                            selectedActivityForm={activityStore.selectedActivityForm}
                             activities={activityStore.activities}
-                            formMode={formMode}
+                            formMode={activityStore.formMode}
                             onSubmitForm={handleSubmitForm}
                             onDeleteActivity={handleDeleteActivity}
                         ></ActivityDashboard>
