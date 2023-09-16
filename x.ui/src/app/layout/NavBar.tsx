@@ -28,6 +28,7 @@ export default function NavBar({ onOpenCreateActivity }: Props) {
                     setValue(newValue);
                     if (newValue === 1) {
                         onOpenCreateActivity();
+                        setValue(0);
                     }
                 }}
             >
