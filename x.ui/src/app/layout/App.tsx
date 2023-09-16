@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Activity } from '../models/activity';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 export default function App() {
 
@@ -12,6 +13,7 @@ export default function App() {
     const [selectedActivityDetails, setSelectedActivityDetails] = useState<Activity | undefined>(undefined);
     const [selectedActivityForm, setSelectedActivityForm] = useState<Activity | undefined>(undefined);
     const [formMode, setFormMode] = useState("Create");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getActivities();
@@ -20,6 +22,7 @@ export default function App() {
     const getActivities = () => {
         agent.Activity.getAll().then(response => {
             setActivities(response.data);
+            setLoading(false);
         })
     }
 
@@ -87,28 +90,33 @@ export default function App() {
     }
 
     return (
+        <div>
 
-        <Grid container spacing={7} columns={12}>
+            <Grid container spacing={7} columns={12}>
 
-            <Grid item xs={12} alignItems="center">
-                <Header></Header>
-            </Grid>
-            <Grid item xs={12}>
-                <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
-                    onCloseActivityDetails={handleCloseActivityDetails}
-                    selectedActivityDetails={selectedActivityDetails}
-                    onCloseActivityForm={handleCloseActivityForm}
-                    onSelectActivityForm={handleSelectActivityForm}
-                    selectedActivityForm={selectedActivityForm}
-                    activities={activities}
-                    formMode={formMode}
-                    onSubmitForm={handleSubmitForm}
-                    onDeleteActivity={handleDeleteActivity}
-                ></ActivityDashboard>
-            </Grid>
-            <Grid item xs={12}>
-                <NavBar onOpenCreateActivity={handleOpenCreateActivity}></NavBar>
-            </Grid>
-        </Grid >
+                <Grid item xs={12} alignItems="center">
+                    <Header></Header>
+                </Grid>
+                <Grid item xs={12}>
+                    <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
+                        onCloseActivityDetails={handleCloseActivityDetails}
+                        selectedActivityDetails={selectedActivityDetails}
+                        onCloseActivityForm={handleCloseActivityForm}
+                        onSelectActivityForm={handleSelectActivityForm}
+                        selectedActivityForm={selectedActivityForm}
+                        activities={activities}
+                        formMode={formMode}
+                        onSubmitForm={handleSubmitForm}
+                        onDeleteActivity={handleDeleteActivity}
+                    ></ActivityDashboard>
+                </Grid>
+                <Grid item xs={12}>
+                    <NavBar onOpenCreateActivity={handleOpenCreateActivity}></NavBar>
+                </Grid>
+            </Grid >
+
+            <LoadingComponent loading={loading} />
+
+        </div>
     )
 }
