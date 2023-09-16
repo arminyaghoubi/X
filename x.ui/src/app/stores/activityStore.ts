@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { Activity } from "../models/activity";
 import agent from "../api/agent";
 
@@ -13,17 +13,19 @@ export default class ActivityStore {
         makeAutoObservable(this);
     }
 
-    getActivities = () => {
+    getActivities = async () => {
         this.loading = true;
-        agent.Activity.getAll().then(response => {
+        const response = await agent.Activity.getAll();
+        runInAction(() => {
             this.activities = response.data;
             this.loading = false;
         })
     }
 
-    createActivity = (activity: Activity) => {
+    createActivity = async (activity: Activity) => {
         this.loading = true;
-        agent.Activity.create(activity).then(response => {
+        const response = await agent.Activity.create(activity);
+        runInAction(() => {
             if (response.status === 200) {
                 this.getActivities();
             }
@@ -31,9 +33,10 @@ export default class ActivityStore {
         })
     }
 
-    updateActivity = (activity: Activity) => {
+    updateActivity = async (activity: Activity) => {
         this.loading = true;
-        agent.Activity.update(activity).then(response => {
+        const response = await agent.Activity.update(activity);
+        runInAction(() => {
             if (response.status === 204) {
                 this.getActivities();
             }
@@ -41,9 +44,10 @@ export default class ActivityStore {
         })
     }
 
-    deleteActivity = (id: string) => {
+    deleteActivity = async (id: string) => {
         this.loading = true;
-        agent.Activity.delete(id).then(response => {
+        const response = await agent.Activity.delete(id);
+        runInAction(() => {
             if (response.status === 204) {
                 this.getActivities();
             }
