@@ -3,13 +3,13 @@ import { Activity } from '../models/activity';
 
 axios.defaults.baseURL = "https://localhost:7274/api";
 
-const responseBody = (response: AxiosResponse) => response;
+const responseBody = <T>(response: AxiosResponse<T>) => response;
 
 const requests = {
-    get: (url: string) => axios.get(url).then(responseBody),
-    post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
-    put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
-    delete: (url: string) => axios.delete(url).then(responseBody),
+    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+    delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 }
 
 const urls = {
@@ -17,7 +17,7 @@ const urls = {
 }
 
 const Activity = {
-    getAll: () => requests.get(urls.activityUrl),
+    getAll: () => requests.get<Activity[]>(urls.activityUrl),
     create: (activity: Activity) => requests.post(urls.activityUrl, activity),
     update: (activity: Activity) => requests.put(urls.activityUrl, activity),
     delete: (id: string) => requests.delete(`${urls.activityUrl}/${id}`),
