@@ -18,6 +18,7 @@ const urls = {
 
 const Activity = {
     getAll: () => requests.get<Activity[]>(urls.activityUrl),
+    details: (id:string) => requests.get<Activity>(`${urls.activityUrl}/${id}`),
     create: (activity: Activity) => requests.post(urls.activityUrl, activity),
     update: (activity: Activity) => requests.put(urls.activityUrl, activity),
     delete: (id: string) => requests.delete(`${urls.activityUrl}/${id}`),
