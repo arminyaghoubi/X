@@ -3,11 +3,26 @@ import { Activity } from "../models/activity";
 import agent from "../api/agent";
 
 export default class ActivityStore {
+    emptyActivity: Activity = {
+        id: '',
+        title: '',
+        description: '',
+        category: '',
+        date: '',
+        city: '',
+        venue: '',
+        creationDate: '',
+        creatorId: '',
+        lastModifiedDate: '',
+        modifierId: ''
+    }
+
     activities: Activity[] = [];
     loading: boolean = false;
     selectedActivityDetails: Activity | undefined = undefined;
     selectedActivityForm: Activity | undefined = undefined;
     formMode: string = "Create";
+    closeForm: boolean = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -59,11 +74,38 @@ export default class ActivityStore {
         this.selectedActivityDetails = activity;
     }
 
-    setSelectedActivityForm = (activity: Activity | undefined) => {
+    setSelectedActivityForm = (activity: Activity) => {
         this.selectedActivityForm = activity;
     }
 
     setFormMode = (mode: string) => {
         this.formMode = mode;
+    }
+
+    openCreateActivity = () => {
+        this.setFormMode("Create");
+        this.setSelectedActivityForm(this.emptyActivity);
+        this.closeForm = false;
+    }
+
+    openUpdateActivity = (activity: Activity) => {
+        this.setFormMode("Edit");
+        this.setSelectedActivityForm(activity);
+        this.closeForm = false;
+    }
+
+    setCloseForm = () => {
+        this.closeForm = true;
+        this.selectedActivityForm = undefined;
+    }
+
+    submitForm = async (activity: Activity) => {
+        if (this.formMode == "Create") {
+            await this.createActivity(activity);
+        }
+        else if (this.formMode == "Edit") {
+            await this.updateActivity(activity);
+        }
+        this.setCloseForm();
     }
 }

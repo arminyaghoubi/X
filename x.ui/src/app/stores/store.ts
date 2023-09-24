@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
 import ActivityStore from "./activityStore";
-import { configure } from "mobx"
 
 interface Store {
     activityStore: ActivityStore;

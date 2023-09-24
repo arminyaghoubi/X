@@ -2,7 +2,6 @@
 import NavBar from './NavBar';
 import Header from './Header';
 import { useEffect } from 'react';
-import { Activity } from '../models/activity';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import LoadingComponent from './LoadingComponent';
 import { useStore } from '../stores/store';
@@ -17,56 +16,56 @@ export default observer(
             activityStore.getActivities();
         }, [activityStore]);
 
-        const handleSelectActivityDetails = (activity: Activity) => {
-            activityStore.setSelectedActivityDetails(activity);
-        }
+        //const handleSelectActivityDetails = (activity: Activity) => {
+        //    activityStore.setSelectedActivityDetails(activity);
+        //}
 
-        const handleCloseActivityDetails = () => {
-            activityStore.setSelectedActivityDetails(undefined);
-        }
+        //const handleCloseActivityDetails = () => {
+        //    activityStore.setSelectedActivityDetails(undefined);
+        //}
 
-        const handleCloseActivityForm = () => {
-            activityStore.setFormMode("Create");
-            activityStore.setSelectedActivityForm(undefined);
-        }
+        //const handleCloseActivityForm = () => {
+        //    activityStore.setFormMode("Create");
+        //    activityStore.setSelectedActivityForm(undefined);
+        //}
 
-        const handleSelectActivityForm = (activity: Activity, formMode: string) => {
-            activityStore.setFormMode(formMode);
-            activityStore.setSelectedActivityForm(activity);
-        }
+        //const handleSelectActivityForm = (activity: Activity, formMode: string) => {
+        //    activityStore.setFormMode(formMode);
+        //    activityStore.setSelectedActivityForm(activity);
+        //}
 
-        const handleOpenCreateActivity = () => {
-            const emptyActivity: Activity = {
-                id: '',
-                title: '',
-                description: '',
-                category: '',
-                date: '',
-                city: '',
-                venue: '',
-                creationDate: '',
-                creatorId: '',
-                lastModifiedDate: '',
-                modifierId: ''
-            }
-            activityStore.setFormMode("Create");
-            activityStore.setSelectedActivityForm(emptyActivity);
-        }
+        //const handleOpenCreateActivity = () => {
+        //    const emptyActivity: Activity = {
+        //        id: '',
+        //        title: '',
+        //        description: '',
+        //        category: '',
+        //        date: '',
+        //        city: '',
+        //        venue: '',
+        //        creationDate: '',
+        //        creatorId: '',
+        //        lastModifiedDate: '',
+        //        modifierId: ''
+        //    }
+        //    activityStore.setFormMode("Create");
+        //    activityStore.setSelectedActivityForm(emptyActivity);
+        //}
 
-        const handleSubmitForm = (activity: Activity) => {
-            if (activityStore.formMode == "Create") {
-                activityStore.createActivity(activity);
-                handleCloseActivityForm();
-            }
-            else if (activityStore.formMode == "Edit") {
-                activityStore.updateActivity(activity);
-                handleCloseActivityForm();
-            }
-        }
+        //const handleSubmitForm = (activity: Activity) => {
+        //    if (activityStore.formMode == "Create") {
+        //        activityStore.createActivity(activity);
+        //        handleCloseActivityForm();
+        //    }
+        //    else if (activityStore.formMode == "Edit") {
+        //        activityStore.updateActivity(activity);
+        //        handleCloseActivityForm();
+        //    }
+        //}
 
-        const handleDeleteActivity = (id: string) => {
-            activityStore.deleteActivity(id);
-        }
+        //const handleDeleteActivity = (id: string) => {
+        //    activityStore.deleteActivity(id);
+        //}
 
         return (
             <div>
@@ -77,20 +76,10 @@ export default observer(
                         <Header></Header>
                     </Grid>
                     <Grid item xs={12}>
-                        <ActivityDashboard onSelectActivityDetails={handleSelectActivityDetails}
-                            onCloseActivityDetails={handleCloseActivityDetails}
-                            selectedActivityDetails={activityStore.selectedActivityDetails}
-                            onCloseActivityForm={handleCloseActivityForm}
-                            onSelectActivityForm={handleSelectActivityForm}
-                            selectedActivityForm={activityStore.selectedActivityForm}
-                            activities={activityStore.activities}
-                            formMode={activityStore.formMode}
-                            onSubmitForm={handleSubmitForm}
-                            onDeleteActivity={handleDeleteActivity}
-                        ></ActivityDashboard>
+                        <ActivityDashboard activities={activityStore.activities}></ActivityDashboard>
                     </Grid>
                     <Grid item xs={12}>
-                        <NavBar onOpenCreateActivity={handleOpenCreateActivity}></NavBar>
+                        <NavBar></NavBar>
                     </Grid>
                 </Grid >
 

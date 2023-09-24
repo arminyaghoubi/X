@@ -1,19 +1,16 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { Activity } from "../../../app/models/activity";
+import { useStore } from "../../../app/stores/store";
 
-interface Props {
-    activity?: Activity;
-    open: boolean;
-    onClose: () => void;
-}
+export default function ActivityDetails() {
 
-export default function ActivityDetails({ activity, open, onClose }: Props) {
+    const { activityStore } = useStore();
+    const { selectedActivityDetails: activity, setSelectedActivityDetails } = activityStore;
 
     return (
         <div>
             <Dialog
-                open={open}
-                onClose={onClose}
+                open={Boolean(activity)}
+                onClose={() => setSelectedActivityDetails(undefined)}
             >
                 <DialogTitle>
                     {activity?.title}
@@ -26,7 +23,7 @@ export default function ActivityDetails({ activity, open, onClose }: Props) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={() => setSelectedActivityDetails(undefined)}>Close</Button>
                 </DialogActions>
             </Dialog>
         </div>
