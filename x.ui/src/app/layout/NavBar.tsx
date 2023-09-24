@@ -2,12 +2,13 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useState } from "react";
+import { useStore } from "../stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    onOpenCreateActivity: () => void;
-}
+export default observer( function NavBar() {
 
-export default function NavBar({ onOpenCreateActivity }: Props) {
+    const { activityStore } = useStore();
+
     const styles = {
         stickToBottom: {
             width: '100%',
@@ -27,7 +28,7 @@ export default function NavBar({ onOpenCreateActivity }: Props) {
                 onChange={(_event, newValue) => {
                     setValue(newValue);
                     if (newValue === 1) {
-                        onOpenCreateActivity();
+                        activityStore.openCreateActivity();
                         setValue(0);
                     }
                 }}
@@ -37,4 +38,4 @@ export default function NavBar({ onOpenCreateActivity }: Props) {
             </BottomNavigation>
         </div>
     )
-}
+})

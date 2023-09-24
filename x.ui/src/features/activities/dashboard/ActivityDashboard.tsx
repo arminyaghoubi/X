@@ -1,4 +1,6 @@
+import { observer } from "mobx-react-lite";
 import { Activity } from "../../../app/models/activity";
+import { useStore } from "../../../app/stores/store";
 import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
 import ActivityList from "./ActivityList";
@@ -6,31 +8,22 @@ import ActivityList from "./ActivityList";
 
 interface Props {
     activities: Activity[];
-    selectedActivityDetails: Activity | undefined;
-    onSelectActivityDetails: (activity: Activity) => void;
-    onCloseActivityDetails: () => void;
-    selectedActivityForm: Activity | undefined;
-    onSelectActivityForm: (activity: Activity, formMode: string) => void;
-    onCloseActivityForm: () => void;
-    formMode: string;
-    onSubmitForm: (activity: Activity) => void;
-    onDeleteActivity: (id: string) => void;
 }
 
-export default function ActivityDashboard({ activities,
-    selectedActivityDetails, onSelectActivityDetails, onCloseActivityDetails,
-    selectedActivityForm, onSelectActivityForm, onCloseActivityForm, formMode, onSubmitForm,
-    onDeleteActivity }: Props) {
+export default observer(
+    function ActivityDashboard({ activities }: Props) {
 
-    return (
-        <div>
-            <ActivityList activities={activities} onClickViewDetails={onSelectActivityDetails} onClickUpdate={onSelectActivityForm} onDeleteActivity={onDeleteActivity} />
+        const { activityStore } = useStore();
 
-            {selectedActivityDetails && <ActivityDetails activity={selectedActivityDetails} open={Boolean(selectedActivityDetails)} onClose={onCloseActivityDetails} />}
+        return (
+            <div>
+                <ActivityList activities={activities} />
 
-            {selectedActivityForm &&
-                <ActivityForm activity={selectedActivityForm} open={Boolean(selectedActivityForm)} onClose={onCloseActivityForm} mode={formMode} onSubmitForm={onSubmitForm} />}
-        </div>
+                {activityStore.selectedActivityDetails && <ActivityDetails />}
 
-    )
-}
+                {activityStore.selectedActivityForm && <ActivityForm />}
+            </div>
+
+        )
+    }
+)
