@@ -1,9 +1,11 @@
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useState } from "react";
 import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 export default observer( function NavBar() {
 
@@ -17,7 +19,7 @@ export default observer( function NavBar() {
         },
     };
 
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState("Home");
 
     return (
         <div>
@@ -27,14 +29,15 @@ export default observer( function NavBar() {
                 sx={styles.stickToBottom}
                 onChange={(_event, newValue) => {
                     setValue(newValue);
-                    if (newValue === 1) {
+                    if (newValue === "CreateActivity") {
                         activityStore.openCreateActivity();
-                        setValue(0);
+                        setValue("Activities");
                     }
                 }}
             >
-                <BottomNavigationAction label="Activities" icon={<ListAltIcon />} />
-                <BottomNavigationAction label="Create" icon={<AddCircleOutlineIcon />} />
+                <BottomNavigationAction component={Link} to="" label="Home" value="Home" icon={<HomeOutlinedIcon />} />
+                <BottomNavigationAction component={Link} to="activities" label="Activities" value="Activities" icon={<ListAltIcon />} />
+                <BottomNavigationAction label="Create" value="CreateActivity" icon={<AddCircleOutlineIcon />} />
             </BottomNavigation>
         </div>
     )

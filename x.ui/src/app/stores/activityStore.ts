@@ -20,7 +20,7 @@ export default class ActivityStore {
     activities: Activity[] = [];
     loading: boolean = false;
     selectedActivityDetails: Activity | undefined = undefined;
-    selectedActivityForm: Activity | undefined = undefined;
+    selectedActivityForm: Activity = this.emptyActivity;
     formMode: string = "Create";
     closeForm: boolean = true;
 
@@ -95,8 +95,7 @@ export default class ActivityStore {
     }
 
     setCloseForm = () => {
-        this.closeForm = true;
-        this.selectedActivityForm = undefined;
+        this.closeForm = true;        
     }
 
     submitForm = async (activity: Activity) => {
